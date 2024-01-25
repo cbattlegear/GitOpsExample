@@ -1,16 +1,7 @@
-apiVersion: v1
-data:
-  password: <your base64 encoded password>
-  username: <your base64 encoded username>
-kind: Secret
-metadata:
-  name: base-login-secret
-type: Opaque
----
 apiVersion: sql.arcdata.microsoft.com/v12
 kind: SqlManagedInstance
 metadata:
-  name: base
+  name: sql
 spec:
   dev: true #options: [true, false]
   licenseType: LicenseIncluded #options: [LicenseIncluded, BasePrice].  BasePrice is used for Azure Hybrid Benefits.

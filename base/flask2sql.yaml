@@ -1,11 +1,3 @@
-kind: Secret
-metadata:
-  name: sql-secret
-data:
-  username: c3Fsd2VidXNlcg==
-  password: IVBhc3NAd29yZDE=
-  servername: ZmFyZ28=
-___
 apiVersion: apps/v1
 # The type of commands that will be sent, along with the name of the deployment
 kind: Deployment
@@ -38,10 +30,7 @@ spec:
         - containerPort: 5000
         env:
         - name: SQL_SERVER_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: sql-secret
-              key: servername
+          value: sql
         - name: SQL_SERVER_USERNAME
           valueFrom:
             secretKeyRef:
@@ -59,10 +48,7 @@ spec:
         image: ghcr.io/cbattlegear/dbinitcontainer:latest
         env:
         - name: SQL_SERVER_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: sql-secret
-              key: servername
+          value: sql
         - name: SQL_SERVER_USERNAME
           valueFrom:
             secretKeyRef:
