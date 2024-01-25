@@ -1,3 +1,11 @@
+kind: Secret
+metadata:
+  name: sql-secret
+data:
+  username: c3Fsd2VidXNlcg==
+  password: IVBhc3NAd29yZDE=
+  servername: ZmFyZ28=
+___
 apiVersion: apps/v1
 # The type of commands that will be sent, along with the name of the deployment
 kind: Deployment
@@ -28,9 +36,44 @@ spec:
 # Recall that the Flask application uses (by default) TCIP/IP port 5000 for access. This line tells Kubernetes that this "pod" uses that address.
         ports:
         - containerPort: 5000
+        env:
+        - name: SQL_SERVER_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: servername
+        - name: SQL_SERVER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: username
+        - name: SQL_SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: password
+        - name: SQL_SERVER_DATABASE
+          value: AdventureWorks2019
       initContainers:
-        - name: restoredb
-          image: ghcr.io/cbattlegear/dbinitcontainer:latest
+      - name: restoredb
+        image: ghcr.io/cbattlegear/dbinitcontainer:latest
+        env:
+        - name: SQL_SERVER_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: servername
+        - name: SQL_SERVER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: username
+        - name: SQL_SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: password
+
 ---
 apiVersion: v1
 # This is the front-end of the application access, called a "Load Balancer"
