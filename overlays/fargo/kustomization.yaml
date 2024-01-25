@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namePrefix: fargo
+resources:
+- ../../base
+patches:
+- target:
+    kind: SqlManagedInstance
+    name: sql
+  path: fargosql.yaml
+- target:
+    kind: Deployment
+    name: flask2sql
+  path: fargoapp.yaml

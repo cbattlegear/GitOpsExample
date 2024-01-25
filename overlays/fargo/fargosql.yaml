@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/security/adminLoginSecret
+  value: fargosql-login-secret
